@@ -23,7 +23,7 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
 
     //check if quantity = 1, if it is, remove that item from the cart
     if(existingCartItem.quantity === 1) {
-        return cartItems.filter(cartItem => cartItem.id != cartItemToRemove.id);
+        return cartItems.filter((cartItem) => cartItem.id != cartItemToRemove.id);
     }
 
     //return back cartitems with matching cart item with reduced quantity
@@ -31,10 +31,11 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
             cartItem.id === cartItemToRemove.id
                 ? { ...cartItem, quantity: cartItem.quantity - 1 }
                 : cartItem
-        );
+        ); 
+};
 
-    
-}
+const clearCartItem = (cartItems, cartItemToClear) => cartItems.filter((cartItem) => cartItem.id != cartItemToClear.id);
+
 
 export const CartContext = createContext({
     isCartOpen: false,
@@ -42,6 +43,7 @@ export const CartContext = createContext({
     cartItems: [],
     addItemToCart: () => {},
     removeItemFromCart: () => {},
+    clearItemFromCart: () => {},
     cartCount: 0
 });
 
@@ -63,7 +65,11 @@ export const CartProvider = ({ children }) => {
         setCartItems(removeCartItem(cartItems, cartItemToRemove));
     }
 
-    const value = { isCartOpen, setIsCartOpen, addItemToCart, removeItemFromCart, cartItems, cartCount };
+    const clearItemFromCart = (cartItemToClear) => {
+        setCartItems(clearCartItem(cartItems, cartItemToClear));
+    }
+
+    const value = { isCartOpen, setIsCartOpen, addItemToCart, removeItemFromCart, clearItemFromCart, cartItems, cartCount };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
