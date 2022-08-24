@@ -10,7 +10,7 @@ const CartIcon = () => {
     const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen)
 
     return (
-        <CartIconContainer>
+        <CartIconContainer onClick={toggleIsCartOpen}>
             <ShoppingIcon />
             <ItemCount>{cartCount}</ItemCount>
         </CartIconContainer>
